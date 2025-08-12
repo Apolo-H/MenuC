@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <direct.h>
 
 #ifdef _WIN32
 #define LIMPAR_TELA "cls"
@@ -11,17 +12,24 @@
 void Limpa_buffer(void)
 {
     int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 void Menu_interacao()
 {
-    printf("======== MENU PRINCIPAL ========\n");
-    printf("ATENÇÃO: Para que o Software funcione corretamente é recomendado executa-lo no modo Administrador.\n");
+
+    printf("##########################################################################################################\n");
+    printf("### ATENÇÃO: Para que o Software funcione corretamente é recomendado executa-lo no modo Administrador. ###\n");
+    printf("##########################################################################################################\n");
+    printf("\n");
+
+    printf("========================== MENU PRINCIPAL ===========================\n");
+    printf("\n");
+    
     printf("1 - Recuperação\n");
     printf("2 - CMD Hacks\n");
     printf("0 - Sair\n");
+    printf("\n");
     printf("Escolha uma opção: ");
 }
 
@@ -86,17 +94,23 @@ int main()
                 {
                 case 1:
                     printf("Você escolheu fileRecovery\n");
-                    system("\\Menu\\Menu\\softwares\\Recuperação\\fileRecovery.exe");
+                    _chdir("MenuC\\softwares\\Recuperação");
+                    system("FileRecovery.exe");
+                    _chdir("..\\..");
                     break;
 
                 case 2:
                     printf("Você escolheu PartRecovery\n");
-                    system("\\Menu\\Menu\\softwares\\Recuperação\\PartRecovery.exe");
+                    _chdir("MenuC\\softwares\\Recuperação");
+                    system("PartRecovery.exe");
+                    _chdir("..\\..");
                     break;
 
                 case 3:
                     printf("Você escolheu EasyFileRecovery\n");
-                    system("\\Menu\\Menu\\softwares\\Recuperação\\EasyFileRecovery.exe");
+                    _chdir("MenuC\\softwares\\Recuperação");
+                    system("EasyFileRecovery.exe");
+                    _chdir("..\\..");
                     break;
 
                 case 0:

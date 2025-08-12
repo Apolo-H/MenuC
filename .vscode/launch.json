@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "f:/Menu/Menu",
-      "program": "f:/Menu/Menu/build/Debug/outDebug",
+      "cwd": "c:/Users/vitor.htsassis/Documents/Menu",
+      "program": "c:/Users/vitor.htsassis/Documents/Menu/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
