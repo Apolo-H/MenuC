@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#ifdef _WIN32
+    #define LIMPAR_TELA "cls"
+#else
+    #define LIMPAR_TELA "clear"
+#endif
+
+
+void Limpa_buffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+void Menu_interacao() {
+    printf("=== MENU PRINCIPAL ===\n");
+    printf("1 - Recuperação\n");
+    printf("2 - CMD Hacks\n");
+    printf("0 - Sair\n");
+    printf("Escolha uma opção: ");
+}
+
+void Menu_cmdhacks() {
+	printf("=== MENU DE HACKS DE CMD ===\n");
+	printf("1 - Sfc /scannow - Verifica a integridades dos arqivos do Windows e repara arquivos corrompidos ou ausentes.\n ");
+
+}
+
+void Menu_recuperacao() {
+    printf("=== MENU DE RECUPERAÇÃO ===\n");
+    printf("1 - EasyfileRecovery\n");
+    printf("2 - Opção 2\n");
+    printf("0 - Voltar ao menu principal\n");
+    printf("Escolha uma opção: ");
+}
+
+int main() {
+    int opcao = -1, submenu = -1;
+
+    do {
+        system(LIMPAR_TELA);
+        Menu_interacao();
+
+        if (scanf("%d", &opcao) != 1) {
+            Limpa_buffer();
+            printf("Opção inválida! Digite apenas números.\n");
+            printf("Pressione Enter para continuar...\n");
+            getchar();
+            continue;
+        }
+
+        switch (opcao) {
+            case 1:
+                do {
+                    system(LIMPAR_TELA);
+                    Menu_recuperacao();
+
+                    if (scanf("%d", &submenu) != 1) {
+                        Limpa_buffer();
+                        printf("Opção inválida! Digite apenas números.\n");
+                        printf("Pressione Enter para continuar...\n");
+                        getchar();
+                        submenu = -1;
+                        continue;
+                    }
+
+                    switch (submenu) {
+                        case 1:
+                            printf("Você escolheu EasyfileRecovery\n");
+                            break;
+                        case 2:
+                            printf("Você escolheu a opção 2\n");
+                            break;
+                        case 0:
+                            printf("Voltando ao menu principal...\n");
+                            break;
+                        default:
+                            printf("Opção inválida\n");
+                            break;
+                    }
+
+                    if (submenu != 0) {
+                        printf("Pressione Enter para continuar...\n");
+                        Limpa_buffer();
+                        getchar();
+                    }
+
+                } while (submenu != 0);
+
+                  break;
+
+            case 0:
+                printf("Saindo do programa...\n");
+                break;
+
+	   case 2:
+                  Menu_cmdhacks();
+		  break;
+
+
+            default:
+                printf("Opção inválida\n");
+                printf("Pressione Enter para continuar...\n");
+                break;
+        }
+
+    } while (opcao != 0);
+
+    return 0;
+}

@@ -1,0 +1,2 @@
+add "medz/version.dll" "Program Files\BOOTDISK\version.dll"
+add "medz/settings.ini" "Program Files\BOOTDISK\settings.ini"

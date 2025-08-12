@@ -1,0 +1,1 @@
+wimlib-imagex.exe update boot.wim 1 --check < files_update.txt
