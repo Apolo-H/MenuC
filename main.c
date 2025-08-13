@@ -9,186 +9,175 @@
 #define LIMPAR_TELA "clear"
 #endif
 
-void Limpa_buffer(void)
-{
+
+void Limpa_buffer(void) {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-void Menu_interacao()
-{
+void limparTela() {
+    system(LIMPAR_TELA);
+}
 
+void pausar() {
+    printf("Pressione Enter para continuar...\n");
+    Limpa_buffer();
+    getchar();
+}
+
+int lerOpcao() {
+    int opcao;
+    if (scanf("%d", &opcao) != 1) {
+        Limpa_buffer();
+        printf("Opção inválida! Digite apenas números.\n");
+        pausar();
+        return -1;
+    }
+    return opcao;
+}
+
+void DesenhoLogo() {
+    printf("        ___          __________                                \n");
+    printf("       / _ \\         | _______\\                             \n");
+    printf("      / / \\ \\        | |       \\ \\                         \n");
+    printf("     / /   \\ \\       | |        \\ \\                        \n");
+    printf("    / /     \\ \\      | |________/ /                          \n");
+    printf("   / /_______\\ \\     | |_________/                           \n");
+    printf("  / /_________\\ \\    | |                                     \n");
+    printf(" / /           \\ \\   | |                                     \n");
+    printf("/_/             \\_\\  |_|                                     \n");
+}
+
+void AvisoInicial() {
     printf("##########################################################################################################\n");
-    printf("### ATENÇÃO: Para que o Software funcione corretamente é recomendado executa-lo no modo Administrador. ###\n");
-    printf("##########################################################################################################\n");
+    printf("   ATENÇÃO: Execute este programa como Administrador para funcionamento ideal.                           \n");
     printf("\n");
+    printf("   AVISO: Alguns programas podem ser detectados como vírus por antivírus. Trata-se de falso positivo.    \n");
+    printf("##########################################################################################################\n");
+    pausar();
+}
 
+int MenuPrincipal() {
     printf("========================== MENU PRINCIPAL ===========================\n");
-    printf("\n");
-    
     printf("1 - Recuperação\n");
     printf("2 - CMD Hacks\n");
     printf("0 - Sair\n");
-    printf("\n");
     printf("Escolha uma opção: ");
+    return lerOpcao();
 }
 
-void Menu_cmdhacks()
-{
-    printf("=== MENU DE HACKS DE CMD ===\n");
-    printf("1 - Sfc /scannow - Verifica a integridade dos arquivos do Windows e repara arquivos corrompidos ou ausentes.\n");
+int MenuRecuperacao() {
+    printf("=========================== MENU DE RECUPERAÇÃO ===========================\n");
+    printf("1 - fileRecovery - Recupera arquivos apagados\n");
+    printf("2 - PartRecovery - Recupera partições apagadas\n");
+    printf("3 - EasyfileRecovery - Layout mais amigável\n");
     printf("0 - Voltar ao menu principal\n");
     printf("Escolha uma opção: ");
+    return lerOpcao();
 }
 
-void Menu_recuperacao()
-{
-    printf("=== MENU DE RECUPERAÇÃO ===\n");
-    printf("1 - fileRecovery\n");
-    printf("2 - PartRecovery\n");
-    printf("3 - EasyfileRecovery\n");
+int MenuCmdHacks() {
+    printf("=========================== MENU DE HACKS DE CMD ===========================\n");
+    printf("1 - Sfc /scannow - Verifica e repara arquivos do Windows\n");
     printf("0 - Voltar ao menu principal\n");
     printf("Escolha uma opção: ");
+    return lerOpcao();
 }
 
-int main()
-{
-    system("color 02");
+void executarPrograma(const char *dir, const char *exe) {
+    if (_chdir(dir) != 0) {
+        perror("Erro ao mudar para o diretório do programa");
+        return;
+    }
+    if (system(exe) != 0) {
+        printf("Falha ao executar: %s\n", exe);
+    }
+    _chdir("..\\..");
+    pausar();
+}
+
+
+void logicaMenuRecuperacao() {
+    int opcao;
+    do {
+        limparTela();
+        opcao = MenuRecuperacao();
+        switch (opcao) {
+            case 1:
+                executarPrograma("MenuC\\softwares\\Recuperação", "FileRecovery.exe");
+                break;
+            case 2:
+                executarPrograma("MenuC\\softwares\\Recuperação", "PartRecovery.exe");
+                break;
+            case 3:
+                executarPrograma("MenuC\\softwares\\Recuperação", "EasyFileRecovery.exe");
+                break;
+            case 0:
+                printf("Voltando ao menu principal...\n");
+                break;
+            default:
+                printf("Opção inválida\n");
+                pausar();
+                break;
+        }
+    } while (opcao != 0);
+}
+
+void logicaMenuCmdHacks() {
+    int opcao;
+    do {
+        limparTela();
+        opcao = MenuCmdHacks();
+        switch (opcao) {
+            case 1:
+                printf("Executando: sfc /scannow\n");
+                system("sfc /scannow");
+                pausar();
+                break;
+            case 0:
+                printf("Voltando ao menu principal...\n");
+                break;
+            default:
+                printf("Opção inválida\n");
+                pausar();
+                break;
+        }
+    } while (opcao != 0);
+}
+
+int main() {
     setlocale(LC_ALL, "pt_BR.UTF-8");
+    system("color 02");
 
-    int opcao, submenu;
+    limparTela();
+    DesenhoLogo();
+    AvisoInicial();
 
-    do
-    {
-        system(LIMPAR_TELA);
-        Menu_interacao();
-
-        if (scanf("%d", &opcao) != 1)
-        {
-            Limpa_buffer();
-            printf("Opção inválida! Digite apenas números.\n");
-            printf("Pressione Enter para continuar...\n");
-            getchar();
-            continue;
+    int opcao;
+    do {
+        limparTela();
+        opcao = MenuPrincipal();
+        switch (opcao) {
+            case 1:
+                logicaMenuRecuperacao();
+                break;
+            case 2:
+                logicaMenuCmdHacks();
+                break;
+            case 0:
+                printf("Saindo do programa...\n");
+                break;
+            default:
+                printf("Opção inválida\n");
+                pausar();
+                break;
         }
-
-        switch (opcao)
-        {
-        case 1:
-            do
-            {
-                system(LIMPAR_TELA);
-                Menu_recuperacao();
-
-                if (scanf("%d", &submenu) != 1)
-                {
-                    Limpa_buffer();
-                    printf("Opção inválida! Digite apenas números.\n");
-                    printf("Pressione Enter para continuar...\n");
-                    submenu = -1;
-                    getchar();
-                    continue;
-                }
-
-                switch (submenu)
-                {
-                case 1:
-                    printf("Você escolheu fileRecovery\n");
-                    _chdir("MenuC\\softwares\\Recuperação");
-                    system("FileRecovery.exe");
-                    _chdir("..\\..");
-                    break;
-
-                case 2:
-                    printf("Você escolheu PartRecovery\n");
-                    _chdir("MenuC\\softwares\\Recuperação");
-                    system("PartRecovery.exe");
-                    _chdir("..\\..");
-                    break;
-
-                case 3:
-                    printf("Você escolheu EasyFileRecovery\n");
-                    _chdir("MenuC\\softwares\\Recuperação");
-                    system("EasyFileRecovery.exe");
-                    _chdir("..\\..");
-                    break;
-
-                case 0:
-                    printf("Voltando ao menu principal...\n");
-                    break;
-
-                default:
-                    printf("Opção inválida\n");
-                    break;
-                }
-
-                if (submenu != 0)
-                {
-                    printf("Pressione Enter para continuar...\n");
-                    Limpa_buffer();
-                    getchar();
-                }
-
-            } while (submenu != 0);
-            break;
-
-        case 2:
-            do
-            {
-                system(LIMPAR_TELA);
-                Menu_cmdhacks();
-
-                if (scanf("%d", &submenu) != 1)
-                {
-                    Limpa_buffer();
-                    printf("Opção inválida! Digite apenas números.\n");
-                    printf("Pressione Enter para continuar...\n");
-                    submenu = -1;
-                    continue;
-                }
-
-                switch (submenu)
-                {
-
-                case 1:
-                    printf("Você escolheu Sfc /scannow\n");
-                    system("sfc /scannow");
-                    break;
-
-                default:
-                    printf("Opção inválida\n");
-                    break;
-                }
-
-                if (submenu != 0)
-                {
-                    printf("Pressione Enter para continuar...\n");
-                    Limpa_buffer();
-                    getchar();
-                }
-            } while (submenu != 0);
-            break;
-
-        case 0:
-            printf("Saindo do programa...\n");
-            break;
-
-        default:
-            printf("Opção inválida\n");
-            printf("Pressione Enter para continuar...\n");
-            Limpa_buffer();
-            getchar();
-            break;
-        }
-
     } while (opcao != 0);
 
     system("color f");
-    system(LIMPAR_TELA);
+    limparTela();
     printf("Obrigado por usar o Menu Interativo!\n");
-    printf("Pressione Enter para sair...\n");
-    Limpa_buffer();
-    getchar();
-    system(LIMPAR_TELA);
+    pausar();
+    limparTela();
     return 0;
 }
